@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import pandas as pd
+import numpy as np
 
 PATH = Path(__file__).parent.absolute()
 DIR_NAME = "ml-1m"
@@ -33,7 +34,6 @@ def load_rating_data():
 
 
 def load_data():
-    age_vocab = [1, 18, 25, 35, 45, 50, 56]
 
     def get_col_num(col_name: str):
         return {col_name: x[col_name].unique().shape[0]+1}
@@ -51,6 +51,8 @@ def load_data():
     x = result[columns].astype(float)
 
     y = result[["rating"]].apply(lambda x: x/5).to_numpy().astype(float)
+
+    age_vocab = np.sort(x["age"].unique())
 
     num_item_cols = [get_col_num(item_col) for item_col in item_cols]
     # num_context_cols = [get_col_num(context_col) for context_col in context_cols]
