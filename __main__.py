@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 import pandas as pd
-from sklearn.model_selection import train_test_split
 
 PATH = Path(__file__).parent.absolute()
 DIR_NAME = "ml-1m"
@@ -67,13 +66,3 @@ def load_data():
     # for num_context_col in num_context_cols:
     #     num_words_dict.update(num_context_col)
     return x, y, num_words_dict, columns
-
-
-if __name__ == "__main__":
-
-    x, y, num_words_dict, columns = load_data()
-    print(num_words_dict)
-    x_train, x_test, y_train, y_test = train_test_split(
-        x, y, test_size=0.2, random_state=42)
-    print(x_train)
-    print(x_test)
