@@ -33,6 +33,7 @@ def load_rating_data():
 
 
 def load_data():
+    age_vocab = [1, 18, 25, 35, 45, 50, 56]
 
     def get_col_num(col_name: str):
         return {col_name: x[col_name].unique().shape[0]+1}
@@ -65,4 +66,4 @@ def load_data():
 
     # for num_context_col in num_context_cols:
     #     num_words_dict.update(num_context_col)
-    return x, y, num_words_dict, columns
+    return x, y, num_words_dict, columns, age_vocab
