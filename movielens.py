@@ -33,7 +33,7 @@ def load_rating_data():
     return df_rating
 
 
-def load_data(rating_normalization: bool = True):
+def load_data(implicit: bool = True, rating_normalization: bool = True):
 
     def get_col_num(col_name: str):
         return {col_name: x[col_name].unique().shape[0]+1}
@@ -49,8 +49,13 @@ def load_data(rating_normalization: bool = True):
     result["user_id"] = result.index
     result["gender"] = result["gender"].apply(lambda x: 0 if x == "M" else 1)
     x = result[columns].astype(float)
-    norm = 5 if rating_normalization else 1
-    y = result[["rating"]].apply(lambda x: x/norm).to_numpy().astype(float)
+
+    if implicit:
+        y = result[["rating"]].to_numpy().astype(float)
+        y = np.where(y >= 4.0, 1, 0)
+    else:
+        norm = 5 if rating_normalization else 1
+        y = result[["rating"]].apply(lambda x: x/norm).to_numpy().astype(float)
 
     age_vocab = np.sort(x["age"].unique())
 
